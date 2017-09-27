@@ -35,7 +35,7 @@
       }
       if(parseResponse) {
         const obj = JSON.parse(xhr.response);
-        content.innerHTML += '/n' + xhr.response;
+        content.innerHTML += `<p>${xhr.response}</p>`;
         console.dir(obj);
       }else{console.log('Received.');}
     };
@@ -51,7 +51,7 @@
       xhr.open(method, action);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-      xhr.onload = () => handleResponse(xhr, false);
+      xhr.onload = () => handleResponse(xhr, true);
 
       const data = `name=${name}&age=${age}`;
       xhr.send(data);
