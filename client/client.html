@@ -7,6 +7,64 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
 
+    const handleResponse = (xhr, parseResponse) => {
+      const content = document.querySelector('#content');
+
+      switch(xhr.status){
+        case 200:
+          content.innerHTML = `<b>Success</b>`;
+          break;
+        case 201:
+          content.innerHTML = `<b>Create Complete</b>`;
+          break;
+        case 204:
+          content.innerHTML = `<b>Update Complete</b>`;
+          break;
+        case 304:
+          content.innerHTML = `<b>No Change</b>`;
+          break;
+        case 400:
+          content.innerHTML = `<b>Bad Request</b>`;
+          break;
+        case 404:
+          content.innerHTML = `<b>Page Not Found</b>`;
+          break;
+        default:
+          content.innerHTML = `Status not implemented by client`;
+          break;
+      }
+      if(parseResponse) {
+        const obj = JSON.parse(xhr.response);
+        console.dir(obj);
+      }else{console.log('Received.');}
+    };
+
+    const makeRequest = (e, form) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, url);
+      // Stuff between here..
+
+
+      // ...and here
+      xhr.send();
+      
+      e.preventDefault();
+      return false;
+    };
+
+    const init = () => {
+      const userForm = document.querySelector('#userForm');
+      const nameForm = document.querySelector('#nameForm');
+
+      const getUsers = (e) => makeRequest(e, userForm);
+      const addUser = (e) => makeRequest(e, nameForm);
+
+      userForm.addEventListener('submit', getUsers);
+      nameForm.addEventListener('submit', addUser);
+    };
+    
+    window.onload = init;
+
   </script>
 </head>
 <body>

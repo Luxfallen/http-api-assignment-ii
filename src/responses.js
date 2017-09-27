@@ -46,16 +46,19 @@ const getUsers = (request, response) => {
     return respondJSON(request, response, 200, obj);
 };
 
+/// HIGH PRIORITY
+// Still not fleshed out!
 const addUser = (request, response) => {
-    if(request.headers['if-none-match'] === digest){
-        // Yes
-        return respondMeta(request, response, 304);
-    }
-    // No
+    const entry = {
+
+    };
+    users[entry.name] = entry;
 
     //Stuff changed, so make sure to gen a new etag.
     etag = crypto.createHash('sha1').update(JSON.stringify(users));
     digest = etag.digest('hex');
+
+    return respondJSON(request, response, 201, {message: 'Submission Successful.'});
 
 };
 
