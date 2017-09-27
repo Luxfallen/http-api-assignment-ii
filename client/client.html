@@ -35,19 +35,44 @@
       }
       if(parseResponse) {
         const obj = JSON.parse(xhr.response);
+        content.innerHTML += '/n' + xhr.response;
         console.dir(obj);
       }else{console.log('Received.');}
     };
 
+    const makePost = (e, form) => {
+      const method = form.getAttribute('method');
+      const action = form.getAttribute('action');
+
+      const name = form.querySelector('#nameField').value;
+      const age = form.querySelector('#ageField').value;
+
+      const xhr = new XMLHttpRequest();
+      xhr.open(method, action);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+      xhr.onload = () => handleResponse(xhr, false);
+
+      const data = `name=${name}&age=${age}`;
+      xhr.send(data);
+      e.preventDefault();
+      return false;
+    }
+
     const makeRequest = (e, form) => {
       const xhr = new XMLHttpRequest();
+      const method = form.querySelector('#methodSelect').value;
+      const url = form.querySelector('#urlField').value;
       xhr.open(method, url);
+
       // Stuff between here..
-
-
+      if(method == 'get'){
+        xhr.onload = () => handleResponse(xhr, true)
+      } else {
+        xhr.onload = () => handleResponse(xhr, false)
+      }
       // ...and here
       xhr.send();
-      
       e.preventDefault();
       return false;
     };
@@ -57,7 +82,7 @@
       const nameForm = document.querySelector('#nameForm');
 
       const getUsers = (e) => makeRequest(e, userForm);
-      const addUser = (e) => makeRequest(e, nameForm);
+      const addUser = (e) => makePost(e, nameForm);
 
       userForm.addEventListener('submit', getUsers);
       nameForm.addEventListener('submit', addUser);
