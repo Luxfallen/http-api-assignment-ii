@@ -35,7 +35,13 @@
       }
       if(parseResponse) {
         const obj = JSON.parse(xhr.response);
-        content.innerHTML += `<p>${xhr.response}</p>`;
+        if(obj.message) {
+          content.innerHTML += `<p>Message: ${obj.message}</p>`;
+        } else if(obj.users){
+          content.innerHTML += `<p>${JSON.stringify(obj.users)}</p>`;
+        }else {
+          content.innerHTML += `<p>${xhr.response}</p>`;
+        }
         console.dir(obj);
       }else{console.log('Received.');}
     };

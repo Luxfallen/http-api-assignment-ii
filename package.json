@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node ./src/server.js",
     "pretest": "eslint ./src --fix",
-    "test": "echo \"Tests Complete"
+    "test": "echo \"Tests Complete\""
   },
   "repository": "https://github.com/Luxfallen/http-api-assignment-ii.git",
   "author": "Hawkon Gustavsson",
